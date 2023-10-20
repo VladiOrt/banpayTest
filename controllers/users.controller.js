@@ -51,16 +51,17 @@ module.exports = {
     updateUser: async (req = request, res = response) => {
         try {
             const { id } = req.query;
-            const { data } = req.body
-         
+                 
+            const data = await usersHelpers.adaptationCreateUser(req.body)     
+            const updateUser =  await usersResolver.updateUserById(id,data)
            
-            res.status(200).json({ ok: true, data: "" })
-
+            res.status(200).json({ ok: true, msg: "Usuario actualizado con exito"}) 
+                 
         } catch (error) {
-            console.log({ msg: "Error en la busqueda de horarios", error: error })
-
-            res.status(500).json({ msg: "Error en la busqueda de horarios", ok: false })
+            res.status(500).json({ ok: false , msg: "Error al agregar usuario : " + error.message })
         }
+
+
     },
     deleteUser: async (req = request, res = response) => {
         try {
